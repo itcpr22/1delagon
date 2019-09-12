@@ -7,10 +7,10 @@ package ActPack;
 
 /**
  *
- * @author tedted29
+ * @author Delagon69
  */
 public class conn {
-    protected String dbname = "anig_ig";
+    protected String dbname = "login";
     protected String url = "jdbc:mysql://localhost/"+dbname;
     protected String username = "root";
     protected String password = ""; 

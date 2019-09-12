@@ -15,12 +15,12 @@ import java.util.logging.Logger;
 
 /**
  *
- * @author tedted29
+ * @author Angelic69
  */
 public class reg_class {
      conn con = new conn();
     
-    public int register(String Fname, String Lname, String username, String pword){
+    public int register(String firstname, String lastname, String username, String password){
     //String sql = "insert into users values(null,'"+username+"',md5('"+password+"'),'"+lastname+"','"+firstname+"',0)";    
     //System.out.println(sql);
     int x = 0;
@@ -28,13 +28,13 @@ public class reg_class {
     try{
         Class.forName("com.mysql.jdbc.Driver");
         Connection conn = (Connection) DriverManager.getConnection(con.url, con.username, con.password);
-        String sql = "insert into tblusers values(null,?,?,?,md5(?),0)";
+        String sql = "insert into login values(null,?,?,?,md5(?),0)";
         PreparedStatement pstmt = (PreparedStatement) conn.prepareStatement(sql);
         
-        pstmt.setString(1, Fname);
-        pstmt.setString(2, Lname);
+        pstmt.setString(1, firstname);
+        pstmt.setString(2, lastname);
         pstmt.setString(3, username);
-        pstmt.setString(4, pword);
+        pstmt.setString(4, password);
         
         x = pstmt.executeUpdate();
         
@@ -64,7 +64,7 @@ public class reg_class {
             Class.forName("com.mysql.jdbc.Driver");
             Connection conn = (Connection) DriverManager.getConnection(con.url, con.username, con.password);
         
-            String sql = "SELECT username FROM tblusers WHERE username = ?;";
+            String sql = "SELECT username FROM login WHERE username = ?;";
             PreparedStatement pstmt = (PreparedStatement) conn.prepareStatement(sql);
         
             pstmt.setString(1, username);

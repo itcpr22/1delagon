@@ -14,30 +14,29 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- *
- * @author tedted29
+ * @author Delagon69
  */
 public class logIn_class {
     conn con = new conn();
     String fname = "";
     
-    public int login(String username, String pass){
+    public int login(String username, String password){
         int x = 0;
         
         try{
             Class.forName("com.mysql.jdbc.Driver");
             Connection conn = (Connection) DriverManager.getConnection(con.url,con.username,con.password);
             
-            String sql = "SELECT * FROM tblusers WHERE username = ? AND pword = MD5(?);";
+            String sql = "SELECT * FROM login WHERE username = ? AND password = MD5(?);";
             PreparedStatement pstmt = (PreparedStatement) conn.prepareStatement(sql);
             
             pstmt.setString(1, username);
-            pstmt.setString(2, pass);
+            pstmt.setString(2, password);
             
             ResultSet rs = pstmt.executeQuery();
             
             if(rs.next()){
-                fname = rs.getString("Fname");
+                fname = rs.getString("firstname");
                 x = 1;
             }else{
                 x = 0;
