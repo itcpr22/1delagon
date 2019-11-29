@@ -10,7 +10,7 @@ import javax.swing.JOptionPane;
 
 /**
  *
- * @author tedted29
+ * @author hp
  */
 public class log_in extends javax.swing.JFrame {
 
@@ -62,9 +62,7 @@ public class log_in extends javax.swing.JFrame {
         btnLogIN = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
 
-        RegDialog.setMaximumSize(new java.awt.Dimension(360, 368));
         RegDialog.setMinimumSize(new java.awt.Dimension(360, 368));
-        RegDialog.setPreferredSize(new java.awt.Dimension(360, 368));
         RegDialog.setResizable(false);
 
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Register", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 14))); // NOI18N
@@ -211,23 +209,24 @@ public class log_in extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(userTF))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(userTF)
+                        .addGap(16, 16, 16))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel2)
-                        .addGap(18, 18, 18)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(btnLogIN, javax.swing.GroupLayout.DEFAULT_SIZE, 104, Short.MAX_VALUE)
-                                .addGap(18, 18, 18)
+                                .addComponent(btnLogIN, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 30, Short.MAX_VALUE)
                                 .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(PassTF))))
-                .addContainerGap())
+                            .addComponent(PassTF))
+                        .addGap(18, 18, 18))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(32, 32, 32)
+                .addGap(26, 26, 26)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(userTF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -235,11 +234,11 @@ public class log_in extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(PassTF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnLogIN)
                     .addComponent(jButton2))
-                .addContainerGap(31, Short.MAX_VALUE))
+                .addContainerGap(38, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -253,30 +252,14 @@ public class log_in extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void btnLogINActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLogINActionPerformed
-        // TODO add your handling code here:
-         String un = userTF.getText();
-        String pw = new String(PassTF.getPassword());
-
-        int x = logobj.login(un, pw);
-        if (x == 1) {
-            //System.out.println("Login Success");
-            this.setVisible(false);
-            JFrame main = new main(logobj.fname);
-            main.setVisible(true);
-        } else {
-            JOptionPane.showMessageDialog(rootPane, "Invalid username or password", "Error", JOptionPane.ERROR_MESSAGE);
-        }
-    }//GEN-LAST:event_btnLogINActionPerformed
 
     private void TFunActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TFunActionPerformed
         // TODO add your handling code here:
@@ -315,13 +298,6 @@ public class log_in extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
-        RegDialog.setVisible(true);
-         
-        RegDialog.setAlwaysOnTop(true);
-    }//GEN-LAST:event_jButton2ActionPerformed
-
     private void pCPKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_pCPKeyReleased
         // TODO add your handling code here:
          String pass = new String (PFp.getPassword());
@@ -336,6 +312,29 @@ public class log_in extends javax.swing.JFrame {
         }
         jLabel8.setText(msg);
     }//GEN-LAST:event_pCPKeyReleased
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+        RegDialog.setVisible(true);
+
+        RegDialog.setAlwaysOnTop(true);
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void btnLogINActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLogINActionPerformed
+        // TODO add your handling code here:
+        String un = userTF.getText();
+        String pw = new String(PassTF.getPassword());
+
+        int x = logobj.login(un, pw);
+        if (x == 1) {
+            //System.out.println("Login Success");
+            this.setVisible(false);
+            JFrame main = new main(logobj.fname);
+            main.setVisible(true);
+        } else {
+            JOptionPane.showMessageDialog(rootPane, "Invalid username or password", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_btnLogINActionPerformed
 
     /**
      * @param args the command line arguments
