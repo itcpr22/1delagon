@@ -11,6 +11,7 @@ package ActPack;
  */
 public class conn {
     protected String dbname = "angelicdb";
+    protected String dbname = "login";
     protected String url = "jdbc:mysql://localhost/"+dbname;
     protected String username = "root";
     protected String password = ""; 

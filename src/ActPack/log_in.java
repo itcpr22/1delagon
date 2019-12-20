@@ -10,6 +10,7 @@ import javax.swing.JOptionPane;
 
 /**
  *
+ * @author Angelic69
  * @author hp
  */
 public class log_in extends javax.swing.JFrame {
