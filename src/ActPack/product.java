@@ -27,7 +27,7 @@ public class product {
             Class.forName("com.mysql.jdbc.Driver");
             Connection conn = (Connection) DriverManager.getConnection(con.url,con.username,con.password);
             
-            String sql = "DELETE FROM products WHERE Product_id = ?;";
+            String sql = "DELETE FROM products WHERE id = ?;";
             PreparedStatement pstmt = (PreparedStatement) conn.prepareStatement(sql);
             
             int newid = Integer.parseInt(id.toString());
@@ -50,7 +50,7 @@ public class product {
         Class.forName("com.mysql.jdbc.Driver");
         Connection conn = (Connection) DriverManager.getConnection(con.url,con.username,con.password);
         
-        String sql = "UPDATE products SET product = ?, price = ? WHERE Product_id = ?;";
+        String sql = "UPDATE products SET product = ?, price = ? WHERE id = ?;";
         PreparedStatement pstmt = (PreparedStatement) conn.prepareStatement(sql);
         
         pstmt.setString(1, products);
@@ -75,7 +75,7 @@ public class product {
             Class.forName("com.mysql.jdbc.Driver");
             Connection conn = (Connection) DriverManager.getConnection(con.url,con.username,con.password);
         
-            String sql = "UPDATE products SET qt = qt + ? WHERE Product_id = ?;";
+            String sql = "UPDATE products SET qt = qt + ? WHERE id = ?;";
             PreparedStatement pstmt = (PreparedStatement) conn.prepareStatement(sql);
         
             int newqty = Integer.parseInt(quantity.toString());

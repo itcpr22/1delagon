@@ -30,14 +30,14 @@ public class main extends javax.swing.JFrame {
     public main() {
         initComponents();
         this.setLocationRelativeTo(null);
-        refreshThread.start();
+        refresh();
     }
 
     public main(String fname) {
         initComponents();
-         jLabel1.setText("welcome " + fname);
+         jLabel1.setText("Welcome " + fname);
          this.setLocationRelativeTo(null);
-        refreshThread.start();
+        refresh();
     }
  product product_obj = new product();
     conn con = new conn();
@@ -49,32 +49,44 @@ public class main extends javax.swing.JFrame {
         quantity.setValue(0);
         price.setText(null);
         product.requestFocus();
-        label.setText(null);
+        product.setText(null);
     }
- Thread refreshThread = new Thread(new Runnable() {     
-        @Override
-        public void run(){
-            try{
-                while(true){
-                    refresh();
-                    //System.out.println("Refresh");
-                    Thread.sleep(5000);
-                }
-            } catch (InterruptedException ex) {
-                Logger.getLogger(main.class.getName()).log(Level.SEVERE, null, ex);
+
+    final void refresh() {
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            com.mysql.jdbc.Connection conn = (com.mysql.jdbc.Connection) DriverManager.getConnection(con.url, con.username, con.password);
+
+            String sql = "select * from products;";
+            com.mysql.jdbc.Statement stmt = (com.mysql.jdbc.Statement) conn.createStatement();
+
+            ResultSet rs = stmt.executeQuery(sql);
+            DefaultTableModel model = (DefaultTableModel) protable.getModel();
+            model.setRowCount(0);
+            while (rs.next()) {
+                model.addRow(new Object[]{rs.getString("id"), 
+                    rs.getString("product_name"),
+                    rs.getString("quantity"),
+                    rs.getString("price")});
             }
-            
+
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(main.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(main.class.getName()).log(Level.SEVERE, null, ex);
         }
-    });  
+    }
+        
+     
 final void search(String keyword){
         
         try{
              Class.forName("com.mysql.jdbc.Driver");
-            String conURL = "jdbc:mysql://localhost/lincodb"
+            String conURL = "jdbc:mysql://localhost/angelicdb"
                     + "?user=root&password=";
             Connection con = DriverManager.getConnection(conURL);
         
-            String sql = "SELECT * FROM products WHERE Product_id LIKE ? OR product LIKE ?";
+            String sql = "SELECT * FROM products WHERE id LIKE ? OR products LIKE ?";
             PreparedStatement pstmt = (PreparedStatement) con.prepareStatement(sql);
             
             
@@ -85,7 +97,7 @@ final void search(String keyword){
             DefaultTableModel model = (DefaultTableModel) protable.getModel();
             model.setRowCount(0);
             while(rs.next()){
-                model.addRow(new Object[]{rs.getString("Product_id"),rs.getString("product"),rs.getString("qt"),rs.getString("price")});
+                model.addRow(new Object[]{rs.getString("id"),rs.getString("product_name"),rs.getString("quantity"),rs.getString("price")});
             }     
             
         } catch (ClassNotFoundException ex) {
@@ -114,7 +126,6 @@ final void enableAddProductFields(){
         jLabel2 = new javax.swing.JLabel();
         quantity = new javax.swing.JSpinner();
         jLabel3 = new javax.swing.JLabel();
-        label = new javax.swing.JLabel();
         price = new javax.swing.JFormattedTextField();
         jLabel5 = new javax.swing.JLabel();
         addquantity = new javax.swing.JButton();
@@ -130,6 +141,10 @@ final void enableAddProductFields(){
         jButton1 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
         jToggleButton2 = new javax.swing.JToggleButton();
+
+        ap.setFocusable(false);
+        ap.setMinimumSize(new java.awt.Dimension(400, 200));
+        ap.setPreferredSize(new java.awt.Dimension(400, 200));
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel2.setText("PRODUCT:");
@@ -170,59 +185,46 @@ final void enableAddProductFields(){
         apLayout.setHorizontalGroup(
             apLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(apLayout.createSequentialGroup()
+                .addComponent(addquantity)
+                .addGap(67, 67, 67)
+                .addComponent(add)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 69, Short.MAX_VALUE)
+                .addComponent(save)
+                .addGap(61, 61, 61))
+            .addGroup(apLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(apLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, apLayout.createSequentialGroup()
-                        .addGroup(apLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(apLayout.createSequentialGroup()
-                                .addComponent(jLabel2)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(product, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, apLayout.createSequentialGroup()
-                                .addGroup(apLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel3)
-                                    .addComponent(jLabel5))
-                                .addGap(43, 43, 43)
-                                .addGroup(apLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(apLayout.createSequentialGroup()
-                                        .addComponent(price, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(0, 0, Short.MAX_VALUE))
-                                    .addGroup(apLayout.createSequentialGroup()
-                                        .addComponent(label, javax.swing.GroupLayout.DEFAULT_SIZE, 66, Short.MAX_VALUE)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(quantity, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                        .addGap(97, 97, 97))
-                    .addGroup(apLayout.createSequentialGroup()
-                        .addComponent(addquantity)
-                        .addGap(49, 49, 49)
-                        .addComponent(add)
-                        .addGap(50, 50, 50)
-                        .addComponent(save)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                    .addComponent(jLabel2)
+                    .addComponent(jLabel3)
+                    .addComponent(jLabel5))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(apLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(product)
+                    .addComponent(quantity)
+                    .addComponent(price))
+                .addGap(10, 10, 10))
         );
         apLayout.setVerticalGroup(
             apLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(apLayout.createSequentialGroup()
-                .addGap(45, 45, 45)
+                .addContainerGap(74, Short.MAX_VALUE)
                 .addGroup(apLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(product, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2))
-                .addGap(34, 34, 34)
-                .addGroup(apLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(apLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(quantity, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jLabel3))
-                    .addComponent(label, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(31, 31, 31)
+                    .addComponent(jLabel2)
+                    .addComponent(product, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(apLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(price, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel5))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 58, Short.MAX_VALUE)
+                    .addComponent(jLabel3)
+                    .addComponent(quantity, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(apLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel5)
+                    .addComponent(price, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(apLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(addquantity)
                     .addComponent(add)
                     .addComponent(save))
-                .addGap(49, 49, 49))
+                .addGap(25, 25, 25))
         );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -409,7 +411,7 @@ final void enableAddProductFields(){
             quantity.setEnabled(true);
 
             product.setText(products.toString());
-            label.setText(quan.toString());
+            product.setText(quan.toString());
             price.setValue(Double.valueOf(pri.toString()));
             quantity.setValue(0);
         }else{
@@ -431,11 +433,11 @@ final void enableAddProductFields(){
             if (ans == JOptionPane.YES_OPTION) {
                 try {
                     Class.forName("com.mysql.jdbc.Driver");
-                    String conURL = "jdbc:mysql://localhost/lincodb"
+                    String conURL = "jdbc:mysql://localhost/angelicdb"
                     + "?user=root&password=";
                     java.sql.Connection con = DriverManager.getConnection(conURL);
                     PreparedStatement pstmt = con.prepareStatement("DELETE FROM products "
-                        + "WHERE Product_id = ? ");
+                        + "WHERE id = ? ");
                     pstmt.setString(1, id);
                     pstmt.executeUpdate();
 
@@ -487,19 +489,12 @@ final void enableAddProductFields(){
     }//GEN-LAST:event_jToggleButton2ActionPerformed
 
     private void addquantityActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addquantityActionPerformed
-        String pro = product.getText();
-        Object qty = quantity.getValue();
-        int c = JOptionPane.showConfirmDialog(ap, "Would you like to add\n "+qty+"\n to "+pro+" product?", "Add Quantity", JOptionPane.YES_NO_OPTION);
-        if(c == JOptionPane.YES_OPTION){
-            int r = product.addquantity(id, qty);
-            if(r==1){
-                JOptionPane.showMessageDialog(ap, "Quantity Updated");
-                ap.setVisible(false);
-                this.refresh();
+ String pn = product.getText();
+        int a = new product().addquantity(Integer.parseInt(id.toString()), quantity.getValue());
+        refresh() ;
+        ap.setVisible(false);
 
-            }
-        }
-
+        
         // TODO add your handling code here:
     }//GEN-LAST:event_addquantityActionPerformed
 
@@ -510,12 +505,12 @@ final void enableAddProductFields(){
         String spr = pr.toString();
         try {
             Class.forName("com.mysql.jdbc.Driver");
-            String conURL = "jdbc:mysql://localhost/lincodb?"
+            String conURL = "jdbc:mysql://localhost/angelicdb?"
             + "user=root&password=";
 
             Connection con = DriverManager.getConnection(conURL);
 
-            PreparedStatement pstmt = con.prepareStatement("insert into products (product,qt,price)"
+            PreparedStatement pstmt = con.prepareStatement("insert into products (product_name,quantity,price)"
                 + " values (?,?,?);");
             pstmt.setString(1, pro);
             pstmt.setInt(2, qty);
@@ -600,7 +595,6 @@ final void enableAddProductFields(){
     private javax.swing.JLabel jLabel5;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JToggleButton jToggleButton2;
-    private javax.swing.JLabel label;
     private javax.swing.JToggleButton mainproduct;
     private javax.swing.JFormattedTextField price;
     private javax.swing.JTextField product;
@@ -611,7 +605,6 @@ final void enableAddProductFields(){
     private javax.swing.JTextField txt;
     // End of variables declaration//GEN-END:variables
 
-    private void refresh() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+   
+   
 }
